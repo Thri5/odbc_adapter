@@ -17,6 +17,11 @@ module ODBCAdapter
       end
     end
 
+    # ActivieRecord 7.1.3 calls this instead of exec_query directly
+    def internal_exec_query(sql, name = "SQL", binds = [], prepare: false, async: false) # :nodoc:
+      exec_query(sql, name, binds)
+    end
+
     # Executes +sql+ statement in the context of this connection using
     # +binds+ as the bind substitutes. +name+ is logged along with
     # the executed +sql+ statement.
