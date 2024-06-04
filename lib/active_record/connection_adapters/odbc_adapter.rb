@@ -16,6 +16,7 @@ require 'odbc_adapter/version'
 
 module ActiveRecord
   class Base
+
     class << self
       # Build a new ODBC connection with the given configuration.
       def odbc_connection(config)
