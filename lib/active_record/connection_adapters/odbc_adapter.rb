@@ -1,5 +1,4 @@
 require 'active_record'
-require 'arel/visitors/bind_visitor'
 require 'odbc'
 require 'odbc_utf8'
 
@@ -184,13 +183,13 @@ module ActiveRecord
         error_number = exception.message[/^\d+/].to_i
 
         if error_number == ERR_DUPLICATE_KEY_VALUE
-          ActiveRecord::RecordNotUnique.new(message, exception)
+          ActiveRecord::RecordNotUnique.new(message)
         elsif error_number == ERR_QUERY_TIMED_OUT || exception.message =~ ERR_QUERY_TIMED_OUT_MESSAGE
-          ::ODBCAdapter::QueryTimeoutError.new(message, exception)
+          ::ODBCAdapter::QueryTimeoutError.new(message)
         elsif exception.message.match(ERR_CONNECTION_FAILED_REGEX) || exception.message =~ ERR_CONNECTION_FAILED_MESSAGE
           begin
             reconnect!
-            ::ODBCAdapter::ConnectionFailedError.new(message, exception)
+            ::ODBCAdapter::ConnectionFailedError.new(message)
           rescue => e
             puts "unable to reconnect #{e}"
           end
